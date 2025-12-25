@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Message for You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+        :root {
+            --bg-dark: #0a0a0c;
+            --accent-pink: #ff2d75;
+            --accent-purple: #9d4edd;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .serif { font-family: 'Playfair Display', serif; }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+        }
+
+        /* Animated Background Gradient */
+        .bg-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.15) 0%, rgba(255, 45, 117, 0.05) 50%, transparent 100%);
+            z-index: -1;
+            filter: blur(80px);
+            animation: pulse 10s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .heart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 45, 117, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <section class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+        <div class="reveal">
+            <i data-lucide="sparkles" class="mx-auto mb-6 text-pink-500 w-8 h-8"></i>
+            <h1 class="serif text-5xl md:text-7xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-400">
+                Hey there.
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl max-w-md mx-auto leading-relaxed">
+                I've been carrying some thoughts in my heart for a while now. I wanted to share them with you in a space as special as you are.
+            </p>
+        </div>
+        <div class="mt-12 animate-bounce">
+            <i data-lucide="chevron-down" class="text-gray-600"></i>
+        </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-6 py-24 space-y-32">
+        
+        <div class="reveal glass p-8 md:p-12 flex flex-col md:flex-row items-center gap-8">
+            <div class="flex-1">
+                <span class="text-pink-500 font-semibold tracking-widest uppercase text-xs">The Little Things</span>
+                <h2 class="serif text-3xl mt-2 mb-4">It started quietly...</h2>
+                <p class="text-gray-400 leading-relaxed">
+                    It wasn't just one moment, but a collection of them. The way you laugh at your own jokes, the way you focus when you're working, and the kindness you show to everyone around you.
+                </p>
+            </div>
+        </div>
+
+        <div class="reveal glass p-8 md:p-12 flex flex-col md:flex-row-reverse items-center gap-8">
+            <div class="flex-1">
+                <span class="text-purple-500 font-semibold tracking-widest uppercase text-xs">The Feeling</span>
+                <h2 class="serif text-3xl mt-2 mb-4">You make the world brighter.</h2>
+                <p class="text-gray-400 leading-relaxed">
+                    Being around you feels like coming home. You have this incredible ability to make even the most ordinary days feel like something I want to remember forever.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="min-h-screen flex items-center justify-center p-6">
+        <div class="reveal glass max-w-2xl w-full p-12 text-center border-pink-500/20 shadow-2xl">
+            <i data-lucide="heart" class="mx-auto mb-6 text-pink-500 fill-pink-500 w-12 h-12"></i>
+            <h2 class="serif text-4xl font-bold mb-6">The truth is...</h2>
+            <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+                I've fallen for you. More than I ever expected to. I wanted you to know—not because I need an answer right now, but because feelings this real shouldn't stay silent.
+            </p>
+            
+            <button onclick="showResponse()" class="heart-btn bg-gradient-to-r from-pink-600 to-purple-600 text-white px-10 py-4 rounded-full font-bold transition-all duration-300">
+                Click if you feel the same
+            </button>
+            
+            <p id="response-msg" class="mt-6 text-pink-400 opacity-0 transition-opacity duration-500 italic">
+                You just made my entire year. ❤️
+            </p>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center text-gray-600 text-sm">
+        <p>Created with love, just for you.</p>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Reveal animations on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Interactive Button logic
+        function showResponse() {
+            const msg = document.getElementById('response-msg');
+            msg.style.opacity = '1';
+            
+            // Trigger confetti-like effect (Simplified for single file)
+            const btn = document.querySelector('.heart-btn');
+            btn.innerHTML = "My heart is yours.";
+            btn.style.background = "#ff2d75";
+        }
+    </script>
+</body>
+</html>
